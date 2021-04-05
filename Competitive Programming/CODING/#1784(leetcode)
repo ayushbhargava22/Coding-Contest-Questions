@@ -1,0 +1,16 @@
+class Solution {
+public:
+    bool checkOnesSegment(string s) {
+        int noOne = 0;
+        for(int i=0;i<s.size();i++) {
+            if(s[i] == '1') noOne++;
+        }
+        for(int i=0;i<s.size();i++) {
+            if(s[i] == '1') noOne--;
+            else if(s[i] == '0' &&noOne >=1) {
+                return false;
+            }
+        }
+        return true;
+    }
+};

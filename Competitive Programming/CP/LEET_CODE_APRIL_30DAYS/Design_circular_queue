@@ -1,0 +1,74 @@
+struct QNode{  
+    int data;
+    QNode* next;
+    QNode(int val){
+        data = val;
+        next = NULL;
+    }
+};
+
+class MyCircularQueue {
+    int size;
+    int currSize = 0;   
+    QNode* front=NULL,*rear=NULL;
+    
+public:
+    
+    MyCircularQueue(int k) {
+        size = k;
+    }
+    
+    bool enQueue(int value) {
+        if(currSize<size){      
+            QNode* temp = new QNode(value);
+            if(rear==NULL){ //if temp is the very first node to be enqued, simply make the new node as front and rear
+                front = rear = temp;
+            }
+            else{       //connect the new node to the rear's next and make the new node as rear
+                rear->next = temp;
+                rear = temp;               
+            }
+            rear->next = front; //each time a new node is added, rear changes, so update the next pointer of rear each time to point to the front of the queue
+            currSize++;
+            return true;
+        }
+        return false;
+    }
+    
+    bool deQueue() {
+        if(currSize<=0)     
+            return false;
+        if(front==rear)   
+            front = rear = NULL;
+        else{
+            front = front->next; 
+            rear->next = front;  
+        }
+        currSize--;
+        return true;
+    }
+    
+    int Front() {
+        if(front)
+            return front->data;
+        return -1;
+    }
+    
+    int Rear() {
+        if(rear)
+            return rear->data;
+        return -1;
+    }
+    
+    bool isEmpty() {
+        if(currSize==0)
+            return true;
+        return false;
+    }
+    
+    bool isFull() {
+        if(currSize==size)
+            return true;
+        return false;
+    }
+};

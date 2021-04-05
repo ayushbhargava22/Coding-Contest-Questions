@@ -1,0 +1,76 @@
+class Solution {
+    static bool cmp1 (vector<int> &a, vector<int> &b) {
+        if(a[1] < b[1]) return true;
+        else if(a[1] > b[1]) return false;
+        else {
+            return a[2] < b[2];
+        }
+    }
+    
+    static bool cmp2 (vector<int> &a, vector<int> &b) {
+        if(a[2] < b[2]) return true;
+        else if(a[2] > b[2]) return false;
+        else {
+            return a[1] < b[1];
+        }
+    }
+public:
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        vector<vector<int>> v;
+        int sz = strs.size();
+        
+        for(int i=0;i<sz;i++) {
+            int cntz = 0;int cnto=0;
+            for(auto j : strs[i]) {
+                if(j - '0' == 0) cntz++;
+                if(j - '0' == 1) cnto++;
+            }  
+            v.push_back({cntz+cnto,cntz,cnto});
+        }
+        
+         sort(v.begin(), v.end());
+        int z = 0, o = 0;
+        int countA = 0;
+        for(int i = 0; i < sz; i++) {
+            z+= v[i][1];
+            o+= v[i][2];
+            countA++;
+            if(z > m || o > n) {
+                z-=v[i][1];
+                o-=v[i][2];
+                countA--;
+            }
+        }
+        
+        sort(v.begin(), v.end(), cmp1);
+        z = 0, o = 0;
+        int countB = 0;
+        for(int i = 0; i < sz; i++) {
+            z+= v[i][1];
+            o+= v[i][2];
+            countB++;
+            if(z > m || o > n) {
+                z-=v[i][1];
+                o-=v[i][2];
+                countB--;
+            }
+        }
+        
+        sort(v.begin(), v.end(), cmp2);
+        z = 0, o = 0;
+        int countC = 0;
+        for(int i = 0; i < sz; i++) {
+            z+= v[i][1];
+            o+= v[i][2];
+            countC++;
+            if(z > m || o > n) {
+                z-=v[i][1];
+                o-=v[i][2];
+                countC--;
+            }
+        }
+        
+        
+        return max({countA, countB, countC});
+    }
+};
