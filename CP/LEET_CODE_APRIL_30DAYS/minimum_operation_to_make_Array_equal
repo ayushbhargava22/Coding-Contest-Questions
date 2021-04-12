@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int minOperations(int n) {
+        vector<int> arr;
+        int sum=0;
+        for(int i=0;i<n;i++) {
+            arr.push_back((2*i)+1);
+            sum=sum+arr[i];
+        }
+        int target = sum / n;
+        int moves = 0;
+        for(int i=0;i<arr.size();i++) {
+            moves = moves + abs(target-arr[i]);
+        }
+        return moves/2;
+    }
+};

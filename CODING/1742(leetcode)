@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int countBalls(int lowLimit, int highLimit) {
+        int n = highLimit - lowLimit + 1;
+        //vector<int> arr;
+        map<int,int> mp;
+        for(int i=lowLimit;i<=highLimit;i++) {
+            int sum=0;
+            int num=i;
+            while(num>0) {
+                int rem = num%10;
+                sum = sum + rem;
+                num=num/10;
+            }
+            mp[sum]++;
+        }
+        int max = -1;
+        for(auto i : mp) {
+            if(i.second > max) max = i.second;
+        }
+        return max;
+    }
+};
